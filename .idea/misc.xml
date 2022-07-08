@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_contact_massege_details_view.xml" value="0.28854166666666664" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_home_page_with_contact.xml" value="0.3333333333333333" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_login2.xml" value="0.28854166666666664" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_main.xml" value="0.2841025641025641" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_scrolling.xml" value="0.2875" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_status_view_page.xml" value="0.28854166666666664" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/fragment_second.xml" value="0.13177083333333334" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/loginactivity_main.xml" value="0.2875" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

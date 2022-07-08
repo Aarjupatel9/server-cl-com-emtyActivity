@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/Appbarview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+
+            app:toolbarId="@+id/toolbar">
+
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"></androidx.appcompat.widget.Toolbar>
+
+            <TextView
+                android:id="@+id/Contact_name_of_user"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:text="TextView"
+                android:textAlignment="center" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity">
+
+            <Button
+                android:id="@+id/fetchButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="fetch message"
+                android:onClick="setContact_list"
+                android:theme="@style/Button.White" />
+
+            <ProgressBar
+                android:id="@+id/idLoadingPB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fetchButton"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="192dp"
+                android:layout_marginEnd="171dp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/contact_lit_page_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/idLoadingPB"
+                android:layout_marginTop="50dp"
+                android:onClick="setContact_list"
+                android:text="contact list"
+                android:theme="@style/Button.White" />
+
+
+            <LinearLayout
+                android:id="@+id/main_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/fetchButton"
+                android:orientation="vertical"
+                tools:context=".MainActivity"
+                tools:visibility="visible">
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    tools:context=".ScrollingActivity"
+                    tools:ignore="SpeakableTextPresentCheck"
+                    tools:showIn="@layout/activity_main">
+
+                    <LinearLayout
+                        android:id="@+id/massege_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/massege_write_and_send_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_light_background"
+        android:overScrollMode="never"
+        android:layout_gravity="bottom">
+
+
+        <Button
+            android:id="@+id/send_button"
+            android:layout_width="0dp"
+            android:layout_weight=".20"
+            android:layout_height="48dp"
+            android:background="@color/cardview_light_background"
+            android:text="Send"
+            android:textColor="#757575"
+            app:layout_anchorGravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/Contact_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/write_massege"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".80"
+            android:hint="Write massege"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/send_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
