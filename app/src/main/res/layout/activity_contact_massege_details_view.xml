@@ -56,55 +56,29 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/MainContainerOfMassege"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ContactMassegeRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar">
+        app:layout_constraintTop_toBottomOf="@+id/appbar" />
 
 
-        <ProgressBar
-            android:id="@+id/idLoadingPB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
-
-
-        <LinearLayout
-                android:id="@+id/main_linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                tools:context=".MainActivity"
-                tools:visibility="visible">
-
-                <androidx.core.widget.NestedScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    tools:context=".ScrollingActivity"
-                    tools:ignore="SpeakableTextPresentCheck"
-                    tools:showIn="@layout/activity_main">
-
-                    <LinearLayout
-                        android:id="@+id/massege_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                    </LinearLayout>
-                </androidx.core.widget.NestedScrollView>
-            </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <ProgressBar
+        android:id="@+id/idLoadingPB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="80dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
@@ -117,10 +91,11 @@
 
 
         <Button
-            android:id="@+id/send_button"
+            android:id="@+id/send_massege_button"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:background="@color/cardview_light_background"
+            android:onClick="Send_massege_of_user"
             android:text="Send"
             android:textColor="#757575"
             app:layout_anchorGravity="center"
@@ -132,7 +107,7 @@
             android:id="@+id/Contact_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -142,7 +117,7 @@
             android:layout_height="match_parent"
             android:hint="Write massege"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/send_button"
+            app:layout_constraintEnd_toStartOf="@+id/send_massege_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="TouchTargetSizeCheck" />

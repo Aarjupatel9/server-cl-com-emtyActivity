@@ -3,53 +3,30 @@ package com.example.server_cl_com_emtyactivity;
 //import com.example.server_cl_com_emtyactivity.login_activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -57,24 +34,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.DAoFiles.massege_Dao;
 import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.DataContainerClasses.holdLoginData;
+import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.DataContainerClasses.userIdEntityHolder;
 import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.MainDatabaseClass;
 import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.entities.loginDetails_entity;
-import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.entities.massege_entity;
+import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.entities.userIdEntityForApp;
+import com.example.server_cl_com_emtyactivity.LoginMenagement.Login;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kotlin.jvm.Synchronized;
-
 
 public class MainActivity extends Activity {
 
-
     private static final int CAMERA_PERMISSION_CODE = 100;
-    //    private static final int STORAGE_PERMISSION_CODE = 101;
     private static final int INTERNET_PERMISSION_CODE = 102;
     private static final int ACCESS_NETWORK_STATE_PERMISSION_CODE = 103;
     private static final int STORAGE_PERMISSION_CODE = 104;
@@ -82,26 +56,36 @@ public class MainActivity extends Activity {
 
     private static final String url = "http://192.168.43.48:10000/";
 
-
+    private int user_login_id;
     String name, email;
     Button fetchButton;
     TextView Contact_name_of_user;
-
     String filename = "user_login_details";
     private ProgressBar loadingPB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         checkPermission(Manifest.permission.INTERNET, INTERNET_PERMISSION_CODE, "Internet");
+        MainDatabaseClass db = Room.databaseBuilder(getApplicationContext(),
+                MainDatabaseClass.class, "MassengerDatabase").fallbackToDestructiveMigration().allowMainThreadQueries().build();
+        Login login = new Login();
 
-        if (logIned() == 0) {
+        if (login.isLogIn(db) == 0) {
             Intent intent = new Intent(this, LoginActivity.class);
             Log.d("log-not logined", "onCreate: not login cond. reached");
             startActivity(intent);
         } else {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+            //we have to get user_login_id from database
 
+            userIdEntityHolder userIdEntityHolder = new userIdEntityHolder(db);
+            userIdEntityForApp user_idClass = userIdEntityHolder.getData();
+            user_login_id = user_idClass.getU_ID();
+
+            Intent intent = new Intent(this, HomePageWithContactActivity.class);
+            intent.putExtra("user_login_id",String.valueOf(user_login_id));
+            startActivity(intent);
+//            setContentView(R.layout.activity_main);
 
             checkPermission(Manifest.permission.READ_CONTACTS, CONTACTS_PERMISSION_CODE, "CONTACT");
             checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE, "camera");
@@ -113,28 +97,24 @@ public class MainActivity extends Activity {
             loadingPB = findViewById(R.id.idLoadingPB);
             Contact_name_of_user = findViewById(R.id.Contact_name_of_user);
 
-            fetchButton = findViewById(R.id.fetchButton);
-            fetchButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    name = "aarju";
-                    email = "aarju@gmail.com";
-                    postDataUsingVolley(name, email);
-//                    getContacts();
-                }
-            });
+//            fetchButton = findViewById(R.id.fetchButton);
+//            fetchButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    name = "aarju";
+//                    email = "aarju@gmail.com";
+//                    postDataUsingVolley(name, email);
+//                }
+//            });
         }
     }
 
 
     private int logIned() {
         Log.d("log-login-check method", "myfilereadmethod: enter in logIned check  method");
-
         //database relatd work
-
         MainDatabaseClass db = Room.databaseBuilder(getApplicationContext(),
                 MainDatabaseClass.class, "MassengerDatabase").allowMainThreadQueries().build();
-
 
         holdLoginData hold_LoginData = new holdLoginData(db);
         loginDetails_entity dataFromDatabase = hold_LoginData.getData();
@@ -244,7 +224,6 @@ public class MainActivity extends Activity {
             @Override
             public void onResponse(JSONArray response) {
                 loadingPB.setVisibility(View.GONE);
-
                 Log.d("log-responce ", response.toString());
                 int l = response.length();
                 Log.d("log-responce ", String.valueOf(l));
@@ -373,6 +352,7 @@ public class MainActivity extends Activity {
     public void setContact_list(View view) {
         Toast.makeText(MainActivity.this, "setContact list clicked", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, HomePageWithContactActivity.class);
+        intent.putExtra("user_login_id","1");
         Log.d("log-not logined", "onCreate: not login cond. reached");
         startActivity(intent);
     }

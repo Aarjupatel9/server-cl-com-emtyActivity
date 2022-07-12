@@ -3,14 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_contact_massege_details_view.xml" value="0.28854166666666664" />
-        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_home_page_with_contact.xml" value="0.3333333333333333" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.126" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_all_contact_of_user_in_device_view.xml" value="0.3333333333333333" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_contact_massege_details_view.xml" value="0.22" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_home_page_with_contact.xml" value="0.24581005586592178" />
         <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_login2.xml" value="0.28854166666666664" />
         <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_main.xml" value="0.2841025641025641" />
         <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_scrolling.xml" value="0.2875" />
         <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/activity_status_view_page.xml" value="0.28854166666666664" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/contactviewrow.xml" value="0.3333333333333333" />
         <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/fragment_second.xml" value="0.13177083333333334" />
-        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/loginactivity_main.xml" value="0.2875" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/loginactivity_main.xml" value="0.22" />
+        <entry key="..\:/project-work/android-studio-project/serverclcomemtyActivity/app/src/main/res/layout/massege_design_row.xml" value="0.2838709677419355" />
       </map>
     </option>
   </component>

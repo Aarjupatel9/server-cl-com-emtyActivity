@@ -7,16 +7,16 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.DAoFiles.massege_Dao;
+import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.entities.ContactWithMassenger_entity;
 import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.entities.loginDetails_entity;
 import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.entities.massege_entity;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {massege_entity.class, loginDetails_entity.class}, version = 1)
+@Database(entities = {massege_entity.class, loginDetails_entity.class, ContactWithMassenger_entity.class}, version = 3)
 public abstract class MainDatabaseClass extends RoomDatabase {
     public abstract massege_Dao MassegeDao();
-
 
     private static volatile MainDatabaseClass INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

@@ -78,51 +78,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void checkHaveToRegisterInDatabase(String user_number, String user_password) {
-
-        Log.d("log-reached", "enter in checkHaveToRegisterInDatabase ");
-
-        Long number = Long.valueOf(user_number);
-//        int number = Integer.parseInt(user_number);
-        loginDetails_entity login_details = new loginDetails_entity(user_password, number);
-        Log.d("log-reached", "before db initialize : " + login_details.getMobileNumber() + " qnd " + login_details.getPassword());
-
-
-        MainDatabaseClass db = Room.databaseBuilder(getApplicationContext(),
-                MainDatabaseClass.class, "MassengerDatabase").allowMainThreadQueries().build();
-
-
-        Log.d("log-reached", "after db initialize");
-        massege_Dao MassegeDao = db.MassegeDao();
-
-        MassegeDao.SaveLoginDetailsInDatabase(login_details);
-
-        holdLoginData holdLoginData = new holdLoginData(db);
-//        loginDetails_entity dataFromDatabase = MassegeDao.getLoginDetailsFromDatabase();
-        loginDetails_entity dataFromDatabase = holdLoginData.getData();
-//        while(true){
-//            if(dataFromDatabase.getPassword() == null ) {
-        Log.d("log-databse data is ", " : " + dataFromDatabase.getPassword() + " qnd " + dataFromDatabase.getMobileNumber());
-//            }
-//        }
-
-
-//        massege_entity massege_details  = new massege_entity();
-//        massege_details.Massege = "hi i mam aarju patel";
-//        massege_details.Chat_id = 1;
-//        massege_details.MassegeStatus = 1;
-//        massege_details.SenderId = 1;
-//        MainDatabaseClass db = Room.databaseBuilder(getApplicationContext(),
-//                MainDatabaseClass.class, "MassengerDatabase").build();
-//        massege_Dao massegeDao = db.MassegeDao();
-//        massegeDao.insertMassegeIntoChat(massege_details);
-//        Log.d("log-databse data is ", " : data is inserted into database");
-//        massege_entity dataFromDatabase = (massege_entity) massegeDao.getAllChatMaster();
-//        Log.d("log-databse data is ", " : "+dataFromDatabase);
-
-
-    }
-
     private void checkHaveToRegister(String user_number, String user_password) {
         loadingPB.setVisibility(View.VISIBLE);
         // creating a new variable for our request queue
@@ -137,10 +92,12 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     JSONObject respObj = new JSONObject(response);
                     String status = respObj.getString("status");
-                    Log.d("log-respone-status", status);
+                    Log.d("log-response-status", status);
 
                     if (status.equals("1")) {
-                        login(user_number, user_password);
+                        int user_id =  Integer.parseInt(respObj.getString("user_id"));
+                        Log.d("log-user-id", String.valueOf(user_id));
+                        login(user_number, user_password, user_id);
                     } else if (status.equals("2")) {
                         Register(user_number, user_password);
                     }
@@ -180,12 +137,12 @@ public class LoginActivity extends AppCompatActivity {
         requestQueue.add(request);
     }
 
-    public void login(String user_number, String user_password) {
+    public void login(String user_number, String user_password , int user_id) {
 
         //here we are storing login details to local database
         Long number = Long.valueOf(user_number);
 
-        loginDetails_entity login_details = new loginDetails_entity(user_password, number);
+        loginDetails_entity login_details = new loginDetails_entity(user_id, user_password, number);
         Log.d("log-reached", "before db initialize : " + login_details.getMobileNumber() + " qnd " + login_details.getPassword());
 
         MainDatabaseClass db = Room.databaseBuilder(getApplicationContext(),
