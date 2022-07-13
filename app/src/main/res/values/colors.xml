@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_white_for_send_massege_portion">#C3BDBD</color>
     <color name="MainHeaderColor">#287103</color>
+    <color name="main_massegeBackground">#9CD380</color>
 </resources>

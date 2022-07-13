@@ -89,11 +89,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //            intent.putExtra("Rphone", phone);
 //            context.startActivity(intent);
             int C_ID = contact.getC_ID();
+            String ContactName = contact.getDisplay_name();
 //            HomePageWithContactActivity.call_ContactMassegeDetailsView(C_ID);
 
             Intent intent = new Intent(context.getApplicationContext(), ContactMassegeDetailsView.class);
             intent.putExtra("user_login_id",user_login_id);
             intent.putExtra("C_ID",C_ID);
+            intent.putExtra("ContactName",ContactName);
             Log.d("log-not logined", "onCreate: not login cond. reached");
             context.startActivity(intent);
         }

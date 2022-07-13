@@ -14,7 +14,7 @@ import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.entities.masseg
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {massege_entity.class, loginDetails_entity.class, ContactWithMassenger_entity.class}, version = 3)
+@Database(entities = {massege_entity.class, loginDetails_entity.class, ContactWithMassenger_entity.class}, version = 4)
 public abstract class MainDatabaseClass extends RoomDatabase {
     public abstract massege_Dao MassegeDao();
 

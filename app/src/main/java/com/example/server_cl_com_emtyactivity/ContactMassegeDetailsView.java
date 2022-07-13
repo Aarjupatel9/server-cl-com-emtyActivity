@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
@@ -40,7 +41,9 @@ public class ContactMassegeDetailsView extends Activity {
     TextView massege_field;
     int user_login_id;
     int C_ID;
+    String ContactName;
 
+    private TextView Contact_name_of_user;
     private RecyclerView massege_recyclerView;
     private ContactMassegeRecyclerViewAdapter massegeRecyclerViewAdapter;
     private ArrayList<massege_entity> massegeArrayList;
@@ -53,10 +56,14 @@ public class ContactMassegeDetailsView extends Activity {
         Intent intent = getIntent();
         user_login_id = intent.getIntExtra("user_login_id", -1);
         C_ID = intent.getIntExtra("C_ID", -1);
+        ContactName = intent.getStringExtra("ContactName");
         setContentView(R.layout.activity_contact_massege_details_view);
-        Contact_id_textfiled =  findViewById(R.id.Contact_id);
-        massege_field =  findViewById(R.id.write_massege);
-        massege_recyclerView =  findViewById(R.id.ContactMassegeRecyclerView);
+        Contact_id_textfiled = findViewById(R.id.Contact_id);
+        Contact_name_of_user = findViewById(R.id.Contact_name_of_user);
+        Contact_name_of_user.setText(ContactName);
+        massege_field = findViewById(R.id.write_massege);
+        massege_recyclerView = findViewById(R.id.ContactMassegeRecyclerView);
+
         Contact_id_textfiled.setText(String.valueOf(C_ID));
 
         setAllMassege(C_ID);
@@ -66,16 +73,17 @@ public class ContactMassegeDetailsView extends Activity {
     private void setAllMassege(int c_ID) {
         MainDatabaseClass db = Room.databaseBuilder(getApplicationContext(),
                 MainDatabaseClass.class, "MassengerDatabase").allowMainThreadQueries().build();
-        ContactMassegeHolder massegeHolder = new ContactMassegeHolder(db , c_ID);
-        List<massege_entity> massegeList =  massegeHolder.getMassegeList();
+        ContactMassegeHolder massegeHolder = new ContactMassegeHolder(db, c_ID);
+        List<massege_entity> massegeList = massegeHolder.getMassegeList();
 
         massegeArrayList = new ArrayList<>();
-
-
+        for (massege_entity e : massegeList) {
+            Log.d("log-massege","massge is : "+e.getMassege());
+        }
         massegeArrayList.addAll(massegeList);
-        Log.d("log-setContactDetails", "setContactDetails- name is : "+massegeArrayList.get(3).getMassege());
 
-//        recyclerViewAdapter.notifyDataStateChanged();
+        massege_recyclerView.setHasFixedSize(true);
+        massege_recyclerView.setLayoutManager(new LinearLayoutManager(this));
         massegeRecyclerViewAdapter = new ContactMassegeRecyclerViewAdapter(this, massegeArrayList);
         massege_recyclerView.setAdapter(massegeRecyclerViewAdapter);
     }
@@ -152,7 +160,7 @@ public class ContactMassegeDetailsView extends Activity {
         Log.d("log-d", "after add in request queue");
     }
 
-    private  void saveMassegeIntoLocalDatabase(String user_massege, String Contact_id ){
+    private void saveMassegeIntoLocalDatabase(String user_massege, String Contact_id) {
 
     }
 }

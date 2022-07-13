@@ -9,11 +9,11 @@ public class massege_entity {
     @PrimaryKey(autoGenerate = true)
     public int Chat_id;
 
-    @ColumnInfo(name = "user_id")
-    public int UserId;
+    @ColumnInfo(name = "sender_id")
+    public int SenderId;
 
-    @ColumnInfo(name = "C_id")
-    public int C_Id;
+    @ColumnInfo(name = "receiver_id")
+    public int ReceiverId;
 
     @ColumnInfo(name = "massege")
     public String Massege;
@@ -24,8 +24,8 @@ public class massege_entity {
     public massege_entity() {}
 
     public massege_entity(int UserId, int C_ID, String massege, int massegeStatus) {
-        this.UserId = UserId;
-        this.C_Id = C_ID;
+        this.SenderId = UserId;
+        this.ReceiverId = C_ID;
         this.Massege = massege;
         this.MassegeStatus = massegeStatus;
     }
@@ -34,10 +34,10 @@ public class massege_entity {
         return this.Chat_id;
     }
     public int getUserId(){
-        return this.UserId;
+        return this.SenderId;
     }
     public int getC_Id(){
-        return this.C_Id;
+        return this.ReceiverId;
     }
     public String getMassege(){
         return this.Massege;

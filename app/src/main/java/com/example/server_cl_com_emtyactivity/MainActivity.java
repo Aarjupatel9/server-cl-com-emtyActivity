@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 
 import java.util.HashMap;
@@ -34,10 +35,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.DAoFiles.massege_Dao;
 import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.DataContainerClasses.holdLoginData;
 import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.DataContainerClasses.userIdEntityHolder;
 import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.MainDatabaseClass;
 import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.entities.loginDetails_entity;
+import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.entities.massege_entity;
 import com.example.server_cl_com_emtyactivity.LocalDatabaseFiles.entities.userIdEntityForApp;
 import com.example.server_cl_com_emtyactivity.LoginMenagement.Login;
 
@@ -45,6 +48,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.socket.client.Socket;
+import io.socket.client.IO;
+import io.socket.emitter.Emitter;
 
 public class MainActivity extends Activity {
 
@@ -69,6 +75,7 @@ public class MainActivity extends Activity {
         checkPermission(Manifest.permission.INTERNET, INTERNET_PERMISSION_CODE, "Internet");
         MainDatabaseClass db = Room.databaseBuilder(getApplicationContext(),
                 MainDatabaseClass.class, "MassengerDatabase").fallbackToDestructiveMigration().allowMainThreadQueries().build();
+
         Login login = new Login();
 
         if (login.isLogIn(db) == 0) {
@@ -83,7 +90,7 @@ public class MainActivity extends Activity {
             user_login_id = user_idClass.getU_ID();
 
             Intent intent = new Intent(this, HomePageWithContactActivity.class);
-            intent.putExtra("user_login_id",String.valueOf(user_login_id));
+            intent.putExtra("user_login_id", String.valueOf(user_login_id));
             startActivity(intent);
 //            setContentView(R.layout.activity_main);
 
@@ -298,8 +305,6 @@ public class MainActivity extends Activity {
 
     private void syncNewMassegesFromServer() {
 
-        //loadingPB.setVisibility(View.VISIBLE);
-        // creating a new variable for our request queue
         String endpoint = url + "syncNewMassegeFromServer";
         Log.d("log-endpoint", endpoint);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -307,17 +312,31 @@ public class MainActivity extends Activity {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(MainActivity.this, "in sync new massege function!", Toast.LENGTH_SHORT).show();
+
+                JSONArray responseArray = null;
                 try {
+                    responseArray = new JSONArray(response);
+                    int l = responseArray.length();
+                    Log.d("log-massegeSyncResponse", "onResponse- massege length is :" + l);
 
-                    JSONObject respObj = new JSONObject(response);
-                    String status = respObj.getString("status");
-                    Log.d("log-respone-status", status);
+                    for (int i = 0; i < l; i++) {
+                        String RowOfArray = responseArray.getString(i);
+                        JSONObject RowMassege = new JSONObject(RowOfArray);
+                        Log.d("log-massegeSyncResponse", "onResponse- massege is :" + RowMassege.getString("massage"));
+                        Log.d("log-massegeSyncResponse", "onResponse- massege is :" + RowMassege.getString("sender_id"));
+                        Log.d("log-massegeSyncResponse", "onResponse- massege is :" + RowMassege.getString("receiver_id"));
 
-
+                        massege_entity massegeEntity = new massege_entity( Integer.parseInt(RowMassege.getString("sender_id")), Integer.parseInt(RowMassege.getString("receiver_id")),RowMassege.getString("massage"),0);
+                        MainDatabaseClass db = Room.databaseBuilder(getApplicationContext(),
+                                MainDatabaseClass.class, "MassengerDatabase").fallbackToDestructiveMigration().allowMainThreadQueries().build();
+                        massege_Dao MassegeDao = db.MassegeDao();
+                        MassegeDao.insertMassegeIntoChat(massegeEntity);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("log-error", "onResponse: err in try bracet : " + e);
                 }
+
+
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override
@@ -328,31 +347,23 @@ public class MainActivity extends Activity {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                // below line we are creating a map for
-                // storing our values in key and value pair.
                 Map<String, String> params = new HashMap<String, String>();
-
-                // on below line we are passing our key
-                // and value pair to our parameters.
-                params.put("number", "user_number");
-                params.put("password", "user_password");
-
-                // at last we are
-                // returning our params.
+                params.put("user_login_id", String.valueOf(user_login_id));
                 return params;
             }
         };
-        // below line is to make
-        // a json object request.
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(request);
 
 
     }
-
     public void setContact_list(View view) {
         Toast.makeText(MainActivity.this, "setContact list clicked", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, HomePageWithContactActivity.class);
-        intent.putExtra("user_login_id","1");
+        intent.putExtra("user_login_id", "1");
         Log.d("log-not logined", "onCreate: not login cond. reached");
         startActivity(intent);
     }

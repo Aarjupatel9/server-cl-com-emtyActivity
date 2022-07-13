@@ -20,8 +20,8 @@ public interface massege_Dao {
     @Query("SELECT * FROM massege")
     List<massege_entity> getAllChatMaster();
 
-    @Query("SELECT * FROM massege WHERE Chat_id IN (:ChatID)")
-    List<massege_entity> GetChat(int ChatID);
+    @Query("SELECT * FROM massege WHERE receiver_id IN (:receiver_id)")
+    List<massege_entity> GetChat(int receiver_id);
 
 //    @Query("SELECT * FROM massege WHERE first_name LIKE :first AND " +
 //            "last_name LIKE :last LIMIT 1")
